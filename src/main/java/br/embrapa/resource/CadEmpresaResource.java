@@ -38,6 +38,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private CadAmostragemResource cadAmostragemResource;
+
+	@Autowired
+	private CadFrequenciaResource cadFrequenciaResource;
 		
 	
 	@Autowired
@@ -57,7 +60,8 @@ public class CadEmpresaResource {
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
 
 		cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
-		
+		cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}
 	

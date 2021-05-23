@@ -99,7 +99,6 @@ public class CadAmostragemResource {
 	
 	public void populaCadAmostragem(Long cdEmpresa) {
 	    try {
-	    	System.out.println(cdEmpresa);
 			 List<CadAmostragem> resultado = cadAmostragemRepository.listarDadosPadrao();
 			 for(CadAmostragem cadAmostragem: resultado) {  
 				 cadAmostragemRepository.inserirDadosPadrao(cdEmpresa, cadAmostragem.getNmAmostragem());
@@ -108,7 +107,6 @@ public class CadAmostragemResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
- }
+    }
 		
 }

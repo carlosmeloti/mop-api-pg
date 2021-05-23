@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.CadAmostragem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import br.embrapa.repository.CadFrequenciaRepository;
 import br.embrapa.repository.filter.CadFrequenciaFilter;
 import br.embrapa.repository.projections.ResumoCadFrequencia;
 import br.embrapa.service.CadFrequenciaService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cadfrequencia")
@@ -89,5 +92,17 @@ public class CadFrequenciaResource {
 		CadFrequencia cadFrequenciaSalva = cadFrequenciaService.atualizar(codigo, cadFrequencia);
 		LOGGER.info("Frequência atualizada com sucesso!");
 		return ResponseEntity.ok(cadFrequenciaSalva);
+	}
+
+	public void populaCadFrequencia(Long cdEmpresa) {
+		try {
+			List<CadFrequencia> resultado = cadFrequenciaRepository.listarDadosPadrao();
+			for(CadFrequencia cadFrequencia: resultado) {
+				cadFrequenciaRepository.inserirDadosPadrao(cdEmpresa, cadFrequencia.getNmFrequencia());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
