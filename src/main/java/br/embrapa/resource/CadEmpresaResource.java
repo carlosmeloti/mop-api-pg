@@ -35,6 +35,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private CadEmpresaService cadEmpresaService;
+
+	@Autowired
+	private CadAmostragemResource cadAmostragemResource;
 		
 	
 	@Autowired
@@ -51,8 +54,9 @@ public class CadEmpresaResource {
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
 	public ResponseEntity<CadEmpresa> criar(@RequestBody CadEmpresa cadEmpresa, HttpServletResponse response) {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
-		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
+
+		cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}

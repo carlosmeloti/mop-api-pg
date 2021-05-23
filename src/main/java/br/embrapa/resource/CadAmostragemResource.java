@@ -1,5 +1,7 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -94,5 +96,19 @@ public class CadAmostragemResource {
 
 		return ResponseEntity.ok(cadAmostragemSalva);
 	}
+	
+	public void populaCadAmostragem(Long cdEmpresa) {
+	    try {
+	    	System.out.println(cdEmpresa);
+			 List<CadAmostragem> resultado = cadAmostragemRepository.listarDadosPadrao();
+			 for(CadAmostragem cadAmostragem: resultado) {  
+				 cadAmostragemRepository.inserirDadosPadrao(cdEmpresa, cadAmostragem.getNmAmostragem());
+			 }
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+ }
 		
 }
