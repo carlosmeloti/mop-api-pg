@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.CadFrequencia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,8 @@ import br.embrapa.repository.CadTipoDeMetodoRepository;
 import br.embrapa.repository.filter.CadTipoDeMetodoFilter;
 import br.embrapa.repository.projections.ResumoCadTipoDeMetodo;
 import br.embrapa.service.CadTipoDeMetodoService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cadtipodemetodo")
@@ -82,5 +85,17 @@ public class CadTipoDeMetodoResource {
 	public ResponseEntity<CadTipoDeMetodo> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadTipoDeMetodo cadTipoDeMetodo) {
 		CadTipoDeMetodo cadTipoDeMetodoSalva = cadTipoDeMetodoService.atualizar(codigo, cadTipoDeMetodo);
 		return ResponseEntity.ok(cadTipoDeMetodoSalva);
+	}
+
+	public void populaCadTipoDeMetodo(Long cdEmpresa) {
+		try {
+			List<CadTipoDeMetodo> resultado = cadTipoDeMetodoRepository.listarDadosPadrao();
+			for(CadTipoDeMetodo cadTipoDeMetodo: resultado) {
+				cadTipoDeMetodoRepository.inserirDadosPadrao(cdEmpresa, cadTipoDeMetodo.getNmTipoDeMetodo());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

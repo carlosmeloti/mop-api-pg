@@ -41,6 +41,12 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private CadFrequenciaResource cadFrequenciaResource;
+
+	@Autowired
+	private CadTipoDeMetodoResource cadTipoDeMetodoResource;
+
+	@Autowired
+	private CadMaterialResource cadMaterialResource;
 		
 	
 	@Autowired
@@ -61,6 +67,8 @@ public class CadEmpresaResource {
 
 		cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
 		cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
+		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
+		cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}

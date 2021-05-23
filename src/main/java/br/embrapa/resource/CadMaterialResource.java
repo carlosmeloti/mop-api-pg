@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.CadTipoDeMetodo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import br.embrapa.repository.CadMaterialRepository;
 import br.embrapa.repository.filter.CadMaterialFilter;
 import br.embrapa.repository.projections.ResumoCadMaterial;
 import br.embrapa.service.CadMaterialService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cadmaterial")
@@ -93,6 +96,17 @@ public class CadMaterialResource {
 
 		return ResponseEntity.ok(cadMaterialSalva);
 		
+	}
+
+	public void populaCadTipoDeMetodo(Long cdEmpresa) {
+		try {
+			List<CadMaterial> resultado = cadMaterialRepository.listarDadosPadrao();
+			for(CadMaterial cadMaterial: resultado) {
+				cadMaterialRepository.inserirDadosPadrao(cdEmpresa, cadMaterial.getNmMaterial());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
