@@ -19,11 +19,11 @@ public static void main(String[] args) {
 		
 		MopApi1Application m = new MopApi1Application();
 		
-		m.inicio();
+		//m.inicio();
 		
 		SpringApplication.run(MopApi1Application.class, args);
 		
-		m.iniciada();
+		//m.iniciada();
 	}
 	
 	public void inicio() {

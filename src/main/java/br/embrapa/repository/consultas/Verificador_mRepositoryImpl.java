@@ -34,7 +34,7 @@ public class Verificador_mRepositoryImpl implements Verificador_mRepositoryQuery
 		Root<Verificador_m> root = criteria.from(Verificador_m.class);
 		
 		Predicate[] predicates = criarRestricoes(verificardor_mFilter, builder, root);
-		criteria.where(predicates);
+		criteria.where(predicates);//.orderBy(builder.asc(root.get("codigo")));
 		
 		TypedQuery<Verificador_m> query = manager.createQuery(criteria);
 		return query.getResultList();

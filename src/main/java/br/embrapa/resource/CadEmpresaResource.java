@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.Verificador_m;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private CadMaterialResource cadMaterialResource;
+
+	@Autowired
+	private Verificador_mResource verificador_mResource;
 		
 	
 	@Autowired
@@ -69,6 +73,7 @@ public class CadEmpresaResource {
 		cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
 		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
 		cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
+		verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}

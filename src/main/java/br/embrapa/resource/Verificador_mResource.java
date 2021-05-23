@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.embrapa.model.CadMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -59,6 +60,20 @@ public class Verificador_mResource {
 	public ResponseEntity<Verificador_m> atualizar(@PathVariable Long codigo, @Valid @RequestBody Verificador_m verificador_m) {
 		Verificador_m verificador_mSalva = verificador_mService.atualizar(codigo, verificador_m);
 		return ResponseEntity.ok(verificador_mSalva);
+	}
+
+	public void populaVerificador_m(Long cdEmpresa) {
+		try {
+			List<Verificador_m> resultado = verificador_mRepository.listarDadosPadrao();
+			for(Verificador_m verificador_m: resultado) {
+				verificador_mRepository.inserirDadosPadrao(cdEmpresa, verificador_m.getCdVerificador(),
+						verificador_m.getCdTipoDeVerificador().getCdTipoDeVerificador(), verificador_m.getCodalfa(),
+						verificador_m.getCadNivelDeAvaliacao().getCdNivelDeAvaliacao(), verificador_m.getNmverificador(),
+						verificador_m.getLimiar(),verificador_m.getP01_graco());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
