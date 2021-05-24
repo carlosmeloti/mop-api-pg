@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.CadMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,8 @@ import br.embrapa.repository.ModLocal1Repository;
 import br.embrapa.repository.filter.ModLocal1Filter;
 import br.embrapa.repository.projections.ResumoModLocal1;
 import br.embrapa.service.ModLocal1Service;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/unidadedeavaliacao")
@@ -89,6 +92,17 @@ public class ModLocal1Resource {
 	public ResponseEntity<ModLocal1> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModLocal1 cadModLocal1) {
 		ModLocal1 modLocal1Salva = modLocal1Service.atualizar(codigo, cadModLocal1);
 		return ResponseEntity.ok(modLocal1Salva);
+	}
+
+	public void populaModLocal1(Long cdEmpresa) {
+		try {
+			List<ModLocal1> resultado = modLocal1Repository.listarDadosPadrao();
+			for(ModLocal1 modLocal1: resultado) {
+				modLocal1Repository.inserirDadosPadrao(cdEmpresa, modLocal1.getNmlocal1());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

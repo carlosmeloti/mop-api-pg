@@ -51,6 +51,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private Verificador_mResource verificador_mResource;
+
+	@Autowired
+	private ModLocal1Resource modLocal1Resource;
 		
 	
 	@Autowired
@@ -74,6 +77,7 @@ public class CadEmpresaResource {
 		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
 		cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
 		verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
+		modLocal1Resource.populaModLocal1(cadEmpresa.getCdEmpresa());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}
