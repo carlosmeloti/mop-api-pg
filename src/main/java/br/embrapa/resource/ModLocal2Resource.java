@@ -27,6 +27,8 @@ import br.embrapa.repository.filter.ModLocal2Filter;
 import br.embrapa.repository.projections.ResumoModLocal2;
 import br.embrapa.service.ModLocal2Service;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/localdeavaliacao")
@@ -34,8 +36,6 @@ public class ModLocal2Resource {
 	
 	@Autowired
 	private ModLocal2Repository modLocal2Repository;
-	
-	
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_MODLOCAL2') and #oauth2.hasScope('read')")
@@ -48,8 +48,6 @@ public class ModLocal2Resource {
 	public Page<ResumoModLocal2> resumir(ModLocal2Filter modLocal2Filter, Pageable pageable) {
 		return modLocal2Repository.resumir(modLocal2Filter, pageable);
 	}
-	
-
 	
 	@Autowired
 	private ModLocal2Service modLocal2Service;
@@ -66,8 +64,6 @@ public class ModLocal2Resource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(modLocal2Salva);
 	}
 	
-	
-	
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_MODLOCAL2') and #oauth2.hasScope('read')")
 	public ResponseEntity <ModLocal2>buscarPeloCodigo(@PathVariable Long codigo) {
@@ -75,9 +71,6 @@ public class ModLocal2Resource {
 		return modLocal2 != null ? ResponseEntity.ok(modLocal2) : ResponseEntity.notFound().build();
 		
 	}
-	
-	
-	
 
 	@DeleteMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_REMOVER_CADLOCAL2') and #oauth2.hasScope('write')")
@@ -85,14 +78,25 @@ public class ModLocal2Resource {
 	public void remover(@PathVariable Long codigo) {
 		modLocal2Repository.delete(codigo);
 	}
-	
-	
-	
+
 	@PutMapping("/{codigo}")
 	public ResponseEntity<ModLocal2> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModLocal2 modLocal2) {
 		ModLocal2 modLocal2Salva = modLocal2Service.atualizar(codigo, modLocal2);
 		return ResponseEntity.ok(modLocal2Salva);
 	}
 
+	public void populaModLocal2(Long cdEmpresa) {
+		try {
+			List<ModLocal2> resultado = modLocal2Repository.listarDadosPadrao();
+			for (ModLocal2 modLocal2 : resultado) {
+				System.out.println(cdEmpresa);
+				System.out.println(modLocal2.getCdLocal1().getCdLocal1());
+				System.out.println(modLocal2.getNmLocal2());
+				modLocal2Repository.inserirDadosPadrao(cdEmpresa, modLocal2.getCdLocal1().getCdLocal1(), modLocal2.getNmLocal2());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
