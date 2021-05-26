@@ -57,6 +57,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private ModLocal2Resource modLocal2Resource;
+
+	@Autowired
+	private ModLocal3Resource modLocal3Resource;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -81,6 +84,7 @@ public class CadEmpresaResource {
 		verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
 		modLocal1Resource.populaModLocal1(cadEmpresa.getCdEmpresa());
 		modLocal2Resource.populaModLocal2(cadEmpresaSalva.getCdEmpresa());
+		modLocal3Resource.populaModLocal3(cadEmpresaSalva.getCdEmpresa());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}

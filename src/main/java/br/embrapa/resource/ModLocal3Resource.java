@@ -3,6 +3,7 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import br.embrapa.model.ModLocal2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,8 @@ import br.embrapa.repository.ModLocal3Repository;
 import br.embrapa.repository.filter.ModLocal3Filter;
 import br.embrapa.repository.projections.ResumoModLocal3;
 import br.embrapa.service.ModLocal3Service;
+
+import java.util.List;
 
 
 @RestController
@@ -94,7 +97,19 @@ public class ModLocal3Resource {
 	public ResponseEntity<ModLocal3> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModLocal3 modLocal3) {
 		ModLocal3 modLocal3Salva = modLocal3Service.atualizar(codigo, modLocal3);
 		return ResponseEntity.ok(modLocal3Salva);
-}
+	}
+
+	public void populaModLocal3(Long cdEmpresa) {
+		try {
+			List<ModLocal3> resultado = modLocal3Repository.listarDadosPadrao();
+			for (ModLocal3 modLocal3 : resultado) {
+				modLocal3Repository.inserirDadosPadrao(cdEmpresa, modLocal3.getCdLocal1().getCdLocal1(),
+						modLocal3.getCdLocal2().getCdLocal2(), modLocal3.getNmLocal3());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }

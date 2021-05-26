@@ -89,9 +89,6 @@ public class ModLocal2Resource {
 		try {
 			List<ModLocal2> resultado = modLocal2Repository.listarDadosPadrao();
 			for (ModLocal2 modLocal2 : resultado) {
-				System.out.println(cdEmpresa);
-				System.out.println(modLocal2.getCdLocal1().getCdLocal1());
-				System.out.println(modLocal2.getNmLocal2());
 				modLocal2Repository.inserirDadosPadrao(cdEmpresa, modLocal2.getCdLocal1().getCdLocal1(), modLocal2.getNmLocal2());
 			}
 		} catch (Exception e) {
