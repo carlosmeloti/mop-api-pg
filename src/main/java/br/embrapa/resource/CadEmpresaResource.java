@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import br.embrapa.model.Verificador_m;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,8 @@ import br.embrapa.service.CadEmpresaService;
 @RestController
 @RequestMapping("/cadempresa")
 public class CadEmpresaResource {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(CadEmpresaResource.class);
 	
 	@Autowired
 	private CadEmpresaRepository cadEmpresaRepository;
@@ -62,6 +67,9 @@ public class CadEmpresaResource {
 	private ModLocal3Resource modLocal3Resource;
 	
 	@Autowired
+	private ModNivel1Resource modNivel1Resource; 
+	
+	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
@@ -76,19 +84,24 @@ public class CadEmpresaResource {
 	public ResponseEntity<CadEmpresa> criar(@RequestBody CadEmpresa cadEmpresa, HttpServletResponse response) {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
-
-		/*
-		 * cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
-		 * cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
-		 * cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa())
-		 * ; cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
-		 * verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
-		 */
-		modLocal1Resource.populaModLocal1(cadEmpresa.getCdEmpresa());
-		modLocal2Resource.populaModLocal2(cadEmpresaSalva.getCdEmpresa());
-		modLocal3Resource.populaModLocal3(cadEmpresaSalva.getCdEmpresa());
-
+		populaDadosPadrão(cadEmpresaSalva.getCdEmpresa());
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
+	}
+
+
+	private void populaDadosPadrão(Long cdEmpresa) {
+		LOGGER.info("Populando dados padrao - Inicio");
+		cadAmostragemResource.populaCadAmostragem(cdEmpresa);
+		cadFrequenciaResource.populaCadFrequencia(cdEmpresa);
+		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cdEmpresa);
+		cadMaterialResource.populaCadTipoDeMetodo(cdEmpresa);
+		verificador_mResource.populaVerificador_m(cdEmpresa);
+		modLocal1Resource.populaModLocal1(cdEmpresa);
+		modLocal2Resource.populaModLocal2(cdEmpresa);
+		modLocal3Resource.populaModLocal3(cdEmpresa);
+		modNivel1Resource.populaModNivel1(cdEmpresa);
+		LOGGER.info("Populando dados padrao - Fim");
+
 	}
 	
 	@GetMapping("/{cdEmpresa}")

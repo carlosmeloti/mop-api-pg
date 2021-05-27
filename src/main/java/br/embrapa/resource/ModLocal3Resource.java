@@ -38,10 +38,7 @@ public class ModLocal3Resource {
 	@Autowired
 	private ModLocal3Repository modLocal3Repository;
 
-	public ModLocal3Resource() {
-	}
-
-
+	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_MODLOCAL3') and #oauth2.hasScope('read')")
 	public Page<ModLocal3> Pesquisar(ModLocal3Filter modLocal3Filter, Pageable pageable) {
@@ -100,9 +97,12 @@ public class ModLocal3Resource {
 			
 			for(int i = 0 ; i < resultadoNomeLocal3.size(); i++) {
 
-				modLocal3Repository.inserirDadosPadrao(cdEmpresa, 
-						resultadoCd.get(i).getCdLocal1().getCdLocal1(), resultadoCd.get(i).getCdLocal2().getCdLocal2(),
-						resultadoNomeLocal3.get(i).getNmLocal3());	
+				modLocal3Repository.inserirDadosPadrao(
+						cdEmpresa, 
+						resultadoCd.get(i).getCdLocal1().getCdLocal1(), 
+						resultadoCd.get(i).getCdLocal2().getCdLocal2(),
+						resultadoNomeLocal3.get(i).getNmLocal3()
+				);	
 			
 			}
 		} catch (Exception e) {

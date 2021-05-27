@@ -2105,12 +2105,12 @@ PRIMARY KEY(d10_cdnivel1),
 CONSTRAINT empresa_nivel1_fk FOREIGN KEY (d10_cdempresa) REFERENCES d24_empresa(d24_cdempresa)
 );
 
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','1','Somente Etapa / Item / Subitem');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','2','Somente Item / Subitem');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','3','A situação fora da UMF e as providências para  sua proteção');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','4','Providências internas para o funcionamento da empresa');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','5','Sobre a realização das operações florestais');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','6','As atividades empresarias têm os impactos desejados (são eficientes)');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Somente Etapa / Item / Subitem');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Somente Item / Subitem');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','A situação fora da UMF e as providências para  sua proteção');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Providências internas para o funcionamento da empresa');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Sobre a realização das operações florestais');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','As atividades empresarias têm os impactos desejados (são eficientes)');
 
 -- Nivel 2 --------------------------------------
 

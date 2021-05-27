@@ -1,5 +1,7 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.event.RecursoCriadoEvent;
+import br.embrapa.model.CadFrequencia;
 import br.embrapa.model.ModNivel1;
 import br.embrapa.repository.ModNivel1Repository;
 import br.embrapa.repository.filter.ModNivel1Filter;
@@ -64,8 +67,7 @@ public class ModNivel1Resource {
 		ModNivel1 modNivel1 = modNivel1Repository.findOne(codigo);
 		return modNivel1 != null ? ResponseEntity.ok(modNivel1) : ResponseEntity.notFound().build();
 		
-	}
-	
+	}	
 		
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -77,5 +79,17 @@ public class ModNivel1Resource {
 	public ResponseEntity<ModNivel1> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModNivel1 modNivel1) {
 		ModNivel1 modNivel1Salva = modNivel1Service.atualizar(codigo, modNivel1);
 		return ResponseEntity.ok(modNivel1Salva);
+	}
+	
+	
+	public void populaModNivel1(Long cdEmpresa) {
+		try {
+			List<ModNivel1> resultado = modNivel1Repository.listarDadosPadrao();
+			for(ModNivel1 modNivel1: resultado) {
+				modNivel1Repository.inserirDadosPadrao(cdEmpresa, modNivel1.getNmNivel1());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
