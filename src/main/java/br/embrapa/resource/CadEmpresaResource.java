@@ -77,11 +77,13 @@ public class CadEmpresaResource {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
 
-		cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
-		cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
-		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
-		cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
-		verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
+		/*
+		 * cadAmostragemResource.populaCadAmostragem(cadEmpresaSalva.getCdEmpresa());
+		 * cadFrequenciaResource.populaCadFrequencia(cadEmpresaSalva.getCdEmpresa());
+		 * cadTipoDeMetodoResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa())
+		 * ; cadMaterialResource.populaCadTipoDeMetodo(cadEmpresaSalva.getCdEmpresa());
+		 * verificador_mResource.populaVerificador_m(cadEmpresaSalva.getCdEmpresa());
+		 */
 		modLocal1Resource.populaModLocal1(cadEmpresa.getCdEmpresa());
 		modLocal2Resource.populaModLocal2(cadEmpresaSalva.getCdEmpresa());
 		modLocal3Resource.populaModLocal3(cadEmpresaSalva.getCdEmpresa());

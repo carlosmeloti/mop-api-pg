@@ -1,6 +1,7 @@
 package br.embrapa.repository;
 
 import br.embrapa.model.ModLocal2;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.embrapa.model.ModLocal3;
@@ -21,6 +22,10 @@ public interface ModLocal3Repository extends JpaRepository<ModLocal3, Long>, Mod
             "( select MAX(d24_cdempresa) - 1 from d24_empresa)) as d05_cdlocal2, d05_cdlocal3 " +
             "from d05_local3_m where d05_cdempresa =  ( select MAX(d24_cdempresa) - 1 from d24_empresa)",  nativeQuery = true)
     List<ModLocal3> listarDadosPadrao();
+
+
+    @Query(value ="select * from d05_local3_m where d05_cdempresa =1" ,nativeQuery = true)
+    List<ModLocal3> listarNmLocal3Padrao();
 
     @Transactional
     @Modifying

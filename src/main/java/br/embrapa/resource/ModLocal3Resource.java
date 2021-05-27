@@ -3,7 +3,6 @@ package br.embrapa.resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import br.embrapa.model.ModLocal2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -28,6 +27,7 @@ import br.embrapa.repository.filter.ModLocal3Filter;
 import br.embrapa.repository.projections.ResumoModLocal3;
 import br.embrapa.service.ModLocal3Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,9 +37,11 @@ public class ModLocal3Resource {
 	
 	@Autowired
 	private ModLocal3Repository modLocal3Repository;
-	
-	
-	
+
+	public ModLocal3Resource() {
+	}
+
+
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_MODLOCAL3') and #oauth2.hasScope('read')")
 	public Page<ModLocal3> Pesquisar(ModLocal3Filter modLocal3Filter, Pageable pageable) {
@@ -59,15 +61,7 @@ public class ModLocal3Resource {
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
-/*	@PostMapping
-	public ResponseEntity<ModLocal3> criar(@RequestBody ModLocal3 modLocal3, HttpServletResponse response) {
-		
-		ModLocal3 modLocal3Salva = modLocal3Repository.save(modLocal3);
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, modLocal3Salva.getCdLocal3()));
-		return ResponseEntity.status(HttpStatus.CREATED).body(modLocal3Salva);
-	}*/
-	
+
 	@PostMapping
 	public ResponseEntity<ModLocal3> criar(@RequestBody ModLocal3 modLocal3, HttpServletResponse response) {
 		ModLocal3 modLocal3Salva = modLocal3Repository.save(modLocal3);
@@ -101,10 +95,15 @@ public class ModLocal3Resource {
 
 	public void populaModLocal3(Long cdEmpresa) {
 		try {
-			List<ModLocal3> resultado = modLocal3Repository.listarDadosPadrao();
-			for (ModLocal3 modLocal3 : resultado) {
-				modLocal3Repository.inserirDadosPadrao(cdEmpresa, modLocal3.getCdLocal1().getCdLocal1(),
-						modLocal3.getCdLocal2().getCdLocal2(), modLocal3.getNmLocal3());
+			List<ModLocal3> resultadoCd = modLocal3Repository.listarDadosPadrao();
+			List<ModLocal3> resultadoNomeLocal3 = modLocal3Repository.listarNmLocal3Padrao();
+			
+			for(int i = 0 ; i < resultadoNomeLocal3.size(); i++) {
+
+				modLocal3Repository.inserirDadosPadrao(cdEmpresa, 
+						resultadoCd.get(i).getCdLocal1().getCdLocal1(), resultadoCd.get(i).getCdLocal2().getCdLocal2(),
+						resultadoNomeLocal3.get(i).getNmLocal3());	
+			
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
