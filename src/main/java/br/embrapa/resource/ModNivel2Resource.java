@@ -1,4 +1,6 @@
 package br.embrapa.resource;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.CadEmpresa;
+import br.embrapa.model.ModLocal2;
 import br.embrapa.model.ModNivel2;
 import br.embrapa.repository.ModNivel2Repository;
 import br.embrapa.repository.filter.ModNivel2Filter;
@@ -72,5 +75,21 @@ public class ModNivel2Resource {
 	public ResponseEntity<ModNivel2> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModNivel2 modNivel2) {
 		ModNivel2 modNivel2Salva = modNivel2Service.atualizar(codigo, modNivel2);
 		return ResponseEntity.ok(modNivel2Salva);
+	}
+	
+	public void populaModNivel2(Long cdEmpresa) {
+		try {
+			List<ModNivel2> resultadoCd = modNivel2Repository.listarDadosPadrao();
+			List<ModNivel2> resultadoNomeNivel2 = modNivel2Repository.listarNmLocal2Padrao();			
+			for(int i = 0 ; i < resultadoNomeNivel2.size(); i++) {
+				modNivel2Repository.inserirDadosPadrao(
+						cdEmpresa, 
+						resultadoCd.get(i).getCdNivel1().getCdNivel1(), 
+						resultadoNomeNivel2.get(i).getNmNivel2()
+				);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

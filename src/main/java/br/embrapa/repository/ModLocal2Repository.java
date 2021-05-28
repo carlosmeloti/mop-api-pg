@@ -1,16 +1,15 @@
 package br.embrapa.repository;
 
-import br.embrapa.model.ModLocal1;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import br.embrapa.model.ModLocal2;
-import br.embrapa.repository.consultas.ModLocal2RepositoryQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.embrapa.model.ModLocal2;
+import br.embrapa.repository.consultas.ModLocal2RepositoryQuery;
 
 public interface ModLocal2Repository extends JpaRepository<ModLocal2, Long>, ModLocal2RepositoryQuery {
 
@@ -19,6 +18,9 @@ public interface ModLocal2Repository extends JpaRepository<ModLocal2, Long>, Mod
             " from d24_empresa) - 1 )  as d04_cdlocal1 from d04_local2_m where d04_cdempresa = " +
             "(select MAX(d24_cdempresa) - 1 from d24_empresa)",  nativeQuery = true)
     List<ModLocal2> listarDadosPadrao();
+    
+    @Query(value ="select * from d04_local2_m where d04_cdempresa =1" ,nativeQuery = true)
+    List<ModLocal2> listarNmLocal2Padrao();
 
     @Transactional
     @Modifying

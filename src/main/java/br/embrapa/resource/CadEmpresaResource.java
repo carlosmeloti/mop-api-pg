@@ -67,7 +67,10 @@ public class CadEmpresaResource {
 	private ModLocal3Resource modLocal3Resource;
 	
 	@Autowired
-	private ModNivel1Resource modNivel1Resource; 
+	private ModNivel1Resource modNivel1Resource;
+	
+	@Autowired
+	private ModNivel2Resource modNivel2Resource; 
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -90,7 +93,7 @@ public class CadEmpresaResource {
 
 
 	private void populaDadosPadrão(Long cdEmpresa) {
-		LOGGER.info("Populando dados padrao - Inicio");
+		LOGGER.info("Populando dados padrao da empresa " + cdEmpresa + " - Inicio");
 		cadAmostragemResource.populaCadAmostragem(cdEmpresa);
 		cadFrequenciaResource.populaCadFrequencia(cdEmpresa);
 		cadTipoDeMetodoResource.populaCadTipoDeMetodo(cdEmpresa);
@@ -100,7 +103,8 @@ public class CadEmpresaResource {
 		modLocal2Resource.populaModLocal2(cdEmpresa);
 		modLocal3Resource.populaModLocal3(cdEmpresa);
 		modNivel1Resource.populaModNivel1(cdEmpresa);
-		LOGGER.info("Populando dados padrao - Fim");
+		modNivel2Resource.populaModNivel2(cdEmpresa);		
+		LOGGER.info("Populando dados padrao da empresa " + cdEmpresa + " - Fim");
 
 	}
 	

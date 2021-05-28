@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.ModLocal2;
+import br.embrapa.model.ModLocal3;
 import br.embrapa.repository.ModLocal2Repository;
 import br.embrapa.repository.filter.ModLocal2Filter;
 import br.embrapa.repository.projections.ResumoModLocal2;
@@ -84,12 +85,18 @@ public class ModLocal2Resource {
 		ModLocal2 modLocal2Salva = modLocal2Service.atualizar(codigo, modLocal2);
 		return ResponseEntity.ok(modLocal2Salva);
 	}
-
+	
+	
 	public void populaModLocal2(Long cdEmpresa) {
 		try {
-			List<ModLocal2> resultado = modLocal2Repository.listarDadosPadrao();
-			for (ModLocal2 modLocal2 : resultado) {
-				modLocal2Repository.inserirDadosPadrao(cdEmpresa, modLocal2.getCdLocal1().getCdLocal1(), modLocal2.getNmLocal2());
+			List<ModLocal2> resultadoCd = modLocal2Repository.listarDadosPadrao();
+			List<ModLocal2> resultadoNomeLocal2 = modLocal2Repository.listarNmLocal2Padrao();			
+			for(int i = 0 ; i < resultadoNomeLocal2.size(); i++) {
+				modLocal2Repository.inserirDadosPadrao(
+						cdEmpresa, 
+						resultadoCd.get(i).getCdLocal1().getCdLocal1(), 
+						resultadoNomeLocal2.get(i).getNmLocal2()
+				);				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
