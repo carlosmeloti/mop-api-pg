@@ -1,5 +1,7 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.CadEmpresa;
+import br.embrapa.model.ModNivel3;
 import br.embrapa.model.ModNivel4;
 import br.embrapa.repository.ModNivel4Repository;
 import br.embrapa.repository.filter.ModNivel4Filter;
@@ -75,6 +78,24 @@ public class ModNivel4Resource {
 	public ResponseEntity<ModNivel4> atualizar(@PathVariable Long codigo, @Valid @RequestBody ModNivel4 modNivel4) {
 		ModNivel4 modNivel4Salva = modNivel4Service.atualizar(codigo, modNivel4);
 		return ResponseEntity.ok(modNivel4Salva);
+	}
+	
+	public void populaModNivel4(Long cdEmpresa) {
+		try {
+			List<ModNivel4> resultadoCd = modNivel4Repository.listarDadosPadrao();
+			List<ModNivel4> resultadoNomeNivel4 = modNivel4Repository.listarNmNivel4Padrao();			
+			for(int i = 0 ; i < resultadoNomeNivel4.size(); i++) {
+				modNivel4Repository.inserirDadosPadrao(
+						cdEmpresa, 
+						resultadoCd.get(i).getCdNivel1().getCdNivel1(),
+						resultadoCd.get(i).getCdNivel2().getCdNivel2(),
+						resultadoCd.get(i).getCdNivel3().getCdNivel3(),
+						resultadoNomeNivel4.get(i).getNmNivel4()
+				);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

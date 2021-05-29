@@ -20,14 +20,14 @@ public interface ModNivel2Repository extends JpaRepository<ModNivel2, Long>, Mod
     List<ModNivel2> listarDadosPadrao();
     
     @Query(value ="select * from d11_nivel2_m where d11_cdempresa =1" ,nativeQuery = true)
-    List<ModNivel2> listarNmLocal2Padrao();
+    List<ModNivel2> listarNmNivel2Padrao();
 
     @Transactional
     @Modifying
     @Query(value ="INSERT INTO d11_nivel2_m (d11_cdempresa,d11_cdnivel1, d11_nmnivel2) "
     		+ "VALUES(:cdempresa, :cdnivel1, :nmnivel2)", nativeQuery = true)
     void inserirDadosPadrao(@Param("cdempresa") Long cdempresa,
-                            @Param("cdnivel1") Long cdlocal1,
-                            @Param("nmnivel2") String nmlocal2);
+                            @Param("cdnivel1") Long cdnivel2,
+                            @Param("nmnivel2") String nmnivel2);
 	
 }

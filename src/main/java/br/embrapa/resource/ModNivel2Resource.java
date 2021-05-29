@@ -80,7 +80,7 @@ public class ModNivel2Resource {
 	public void populaModNivel2(Long cdEmpresa) {
 		try {
 			List<ModNivel2> resultadoCd = modNivel2Repository.listarDadosPadrao();
-			List<ModNivel2> resultadoNomeNivel2 = modNivel2Repository.listarNmLocal2Padrao();			
+			List<ModNivel2> resultadoNomeNivel2 = modNivel2Repository.listarNmNivel2Padrao();			
 			for(int i = 0 ; i < resultadoNomeNivel2.size(); i++) {
 				modNivel2Repository.inserirDadosPadrao(
 						cdEmpresa, 

@@ -2105,12 +2105,12 @@ PRIMARY KEY(d10_cdnivel1),
 CONSTRAINT empresa_nivel1_fk FOREIGN KEY (d10_cdempresa) REFERENCES d24_empresa(d24_cdempresa)
 );
 
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Somente Etapa / Item / Subitem');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Somente Item / Subitem');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','A situação fora da UMF e as providências para  sua proteção');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Providências internas para o funcionamento da empresa');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','Sobre a realização das operações florestais');
-INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_cdnivel1, d10_nmnivel1)   VALUES ('1','As atividades empresarias têm os impactos desejados (são eficientes)');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','Somente Etapa / Item / Subitem');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','Somente Item / Subitem');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','A situação fora da UMF e as providências para  sua proteção');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','Providências internas para o funcionamento da empresa');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','Sobre a realização das operações florestais');
+INSERT INTO d10_nivel1_m ( d10_cdempresa, d10_nmnivel1)   VALUES ('1','As atividades empresarias têm os impactos desejados (são eficientes)');
 
 -- Nivel 2 --------------------------------------
 
@@ -4272,9 +4272,6 @@ INSERT INTO permissao (codigo, descricao) values (14, 'ROLE_PESQUISAR_CADTIPODEM
 INSERT INTO permissao (codigo, descricao) values (15, 'ROLE_CADASTRAR_CADMATERIAL');
 INSERT INTO permissao (codigo, descricao) values (16, 'ROLE_REMOVER_CADMATERIAL');
 INSERT INTO permissao (codigo, descricao) values (17, 'ROLE_PESQUISAR_CADMATERIAL');
-
-
-
 
 
 -- admin

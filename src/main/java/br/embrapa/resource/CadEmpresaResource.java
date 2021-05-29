@@ -73,6 +73,12 @@ public class CadEmpresaResource {
 	private ModNivel2Resource modNivel2Resource; 
 	
 	@Autowired
+	private ModNivel3Resource modNivel3Resource;
+	
+	@Autowired
+	private ModNivel4Resource modNivel4Resource;
+	
+	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
@@ -103,7 +109,9 @@ public class CadEmpresaResource {
 		modLocal2Resource.populaModLocal2(cdEmpresa);
 		modLocal3Resource.populaModLocal3(cdEmpresa);
 		modNivel1Resource.populaModNivel1(cdEmpresa);
-		modNivel2Resource.populaModNivel2(cdEmpresa);		
+		modNivel2Resource.populaModNivel2(cdEmpresa);	
+		modNivel3Resource.populaModNivel3(cdEmpresa);
+		modNivel4Resource.populaModNivel4(cdEmpresa);
 		LOGGER.info("Populando dados padrao da empresa " + cdEmpresa + " - Fim");
 
 	}
