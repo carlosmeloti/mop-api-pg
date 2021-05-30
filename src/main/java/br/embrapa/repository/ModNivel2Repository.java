@@ -19,7 +19,7 @@ public interface ModNivel2Repository extends JpaRepository<ModNivel2, Long>, Mod
             "(SELECT MAX(d24_cdempresa) FROM d24_empresa) - 1;",  nativeQuery = true)
     List<ModNivel2> listarDadosPadrao();
     
-    @Query(value ="select * from d11_nivel2_m where d11_cdempresa =1" ,nativeQuery = true)
+    @Query(value ="select * from d11_nivel2_m where d11_cdempresa = 1" ,nativeQuery = true)
     List<ModNivel2> listarNmNivel2Padrao();
 
     @Transactional

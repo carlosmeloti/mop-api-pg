@@ -26,7 +26,7 @@ public class ModVerificadoresMonitoramentoTemplateService {
 	private ModVerificadoresMonitoramentoTemplateRepository modVerificadoresMonitoramentoTemplateRepository;
 	
 	public byte[] todosVerificadores(Long cdTemplate) throws Exception {
-		List<TodosOsVerificadores> dados = modVerificadoresMonitoramentoTemplateRepository.listaTeste(cdTemplate);
+		List<TodosOsVerificadores> dados = modVerificadoresMonitoramentoTemplateRepository.listaVerificadores(cdTemplate);
 		
 		Map<String, Object> parametros = new HashMap<>();
 		parametros.put("cdTemplate", Long.valueOf(cdTemplate));

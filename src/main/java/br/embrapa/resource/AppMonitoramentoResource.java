@@ -1,6 +1,13 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -24,7 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.AppMonitoramento;
+import br.embrapa.model.AppVerificadoresMonitoramento;
+import br.embrapa.model.ModVerificadoresMonitoramentoTemplate;
 import br.embrapa.repository.AppMonitoramentoRepository;
+import br.embrapa.repository.AppVerificadoresMonitoramentoRepository;
+import br.embrapa.repository.ModVerificadoresMonitoramentoTemplateRepository;
 import br.embrapa.repository.filter.AppMonitoramentoFilter;
 import br.embrapa.service.AppMonitoramentoService;
 
@@ -36,37 +47,60 @@ public class AppMonitoramentoResource {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppMonitoramentoResource.class);
 
+	@PersistenceContext
+	private EntityManager em;
 
 	@Autowired
 	private AppMonitoramentoRepository appMonitoramentoRepository;
 	@Autowired
 	private AppMonitoramentoService appMonitoramentoService;
 	@Autowired
+	private ModVerificadoresMonitoramentoTemplateRepository modVerificadoresMonitoramentoTemplateRepository;
+	@Autowired
+	private AppVerificadoresMonitoramentoRepository appVerificadoresMonitoramentoRepository;
+	
+	@Autowired
+	private AppVerificadoresMonitoramentoResource appVerificadoresMonitoramentoResource;
+
+	
+	@Autowired
 	private ApplicationEventPublisher publisher;
+
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")
 	public Page<AppMonitoramento> Pesquisar(AppMonitoramentoFilter appMonitoramentoFilter, Pageable pageable) {
 		return appMonitoramentoRepository.filtrar(appMonitoramentoFilter, pageable);
 	}
-	
-	/*@GetMapping(params = "resumo")
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")
-	public Page<ResumoCadAmostragem> resumir(CadAmostragemFilter cadAmostragemFilter, Pageable pageable) {
-		return cadAmostragemRepository.resumir(cadAmostragemFilter, pageable);
-	}*/
-	
-				
+					
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CADAMOSTRAGEM') and #oauth2.hasScope('write')")
 	public ResponseEntity<AppMonitoramento> criar(@RequestBody AppMonitoramento appMonitoramento, HttpServletResponse response) {
-		AppMonitoramento appMonitoramentoSalva = appMonitoramentoRepository.save(appMonitoramento);
-		
+		AppMonitoramento appMonitoramentoSalva = appMonitoramentoRepository.save(appMonitoramento);				
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, appMonitoramento.getCdMonitoramento()));
 		LOGGER.info("Monitoramento salvo com sucesso!");
-
+		insereVerificadoresDoMonitoramento(appMonitoramentoSalva.getCdTemplate().getCdTemplate(),appMonitoramentoSalva.getCdMonitoramento());
 		return ResponseEntity.status(HttpStatus.CREATED).body(appMonitoramentoSalva);
 	}
+	
+	private List<ModVerificadoresMonitoramentoTemplate> listarVerificadores(Long cdtemplate){
+		Query query = em.createNativeQuery("select * from r17_verificador_template_m  where r17_cdtemplate = ?1", ModVerificadoresMonitoramentoTemplate.class)
+				.setParameter(1, cdtemplate);
+		List<ModVerificadoresMonitoramentoTemplate> result =  query.getResultList();
+		return result;
+	}
+	
+
+	private void insereVerificadoresDoMonitoramento(Long cdTemplate, Long cdMonitoramento) {
+				
+		List<ModVerificadoresMonitoramentoTemplate> verificadores = 
+				this.listarVerificadores(cdTemplate);
+					
+		for (ModVerificadoresMonitoramentoTemplate ver : verificadores) {		
+			appVerificadoresMonitoramentoResource.inserirVerificadores(ver, cdMonitoramento);
+		}
+	}
+		
 	
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")

@@ -1,5 +1,10 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -22,8 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.embrapa.dto.AvaliacaoMonitoramentoDTO;
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.AppAvaliacao;
+import br.embrapa.model.ModVerificadoresMonitoramentoTemplate;
 import br.embrapa.repository.AppAvaliacaoRepository;
 import br.embrapa.repository.filter.AppAvaliacaoFilter;
 import br.embrapa.service.AppAvaliacaoService;
@@ -34,6 +41,8 @@ public class AppAvaliacaoResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppAvaliacaoResource.class);
 
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Autowired
 	private AppAvaliacaoRepository appAvaliacaoRepository;
@@ -43,6 +52,9 @@ public class AppAvaliacaoResource {
 	
 	@Autowired
 	private AppAvaliacaoService appAvaliacaoService;
+	
+	@Autowired
+	private AppColetaDeDadosResource appColetaDeDadosResource;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")
@@ -54,12 +66,28 @@ public class AppAvaliacaoResource {
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CADAMOSTRAGEM') and #oauth2.hasScope('write')")
 	public ResponseEntity<AppAvaliacao> criar(@RequestBody AppAvaliacao appAvaliacao, HttpServletResponse response) {
 		AppAvaliacao appAvaliacaoSalva = appAvaliacaoRepository.save(appAvaliacao);
-		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, appAvaliacao.getCdAvaliacao()));
 		
-		LOGGER.info("Avaliação salva com sucesso!");
+		insereAvaliacaoDoMonitoramento();
 		
+		LOGGER.info("Avaliação salva com sucesso!");
 		return ResponseEntity.status(HttpStatus.CREATED).body(appAvaliacaoSalva);
+	}
+	
+	
+	private List<AvaliacaoMonitoramentoDTO> listar(){
+		Query query = em.createNativeQuery("select * from avaliacao_monitoramento", AvaliacaoMonitoramentoDTO.class);
+		List<AvaliacaoMonitoramentoDTO> result =  query.getResultList();
+		return result;
+	}
+	
+	private void insereAvaliacaoDoMonitoramento() {
+		
+		List<AvaliacaoMonitoramentoDTO> avaliacoes = this.listar();
+					
+		for (AvaliacaoMonitoramentoDTO ava : avaliacoes) {		
+			appColetaDeDadosResource.inserir(ava);
+		}
 	}
 	
 	@GetMapping("/{codigo}")

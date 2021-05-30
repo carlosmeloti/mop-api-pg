@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.embrapa.dto.AvaliacaoMonitoramentoDTO;
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.AppColetaDeDados;
+import br.embrapa.model.AppVerificadoresMonitoramento;
+import br.embrapa.model.ModVerificadoresMonitoramentoTemplate;
 import br.embrapa.repository.AppColetaDeDadosRepository;
 import br.embrapa.repository.filter.AppColetaDeDadosFilter;
 import br.embrapa.service.AppColetaDeDadosService;
@@ -85,6 +88,18 @@ public class AppColetaDeDadosResource {
 		AppColetaDeDados appColetaDeDadosSalva = appColetaDeDadosService.atualizar(codigo, appColetaDeDados);
 		LOGGER.info("Coleta de Dados atualizada com sucesso!");
 		return ResponseEntity.ok(appColetaDeDadosSalva);
+	}
+	
+	public void inserir(AvaliacaoMonitoramentoDTO ava) {
+		AppColetaDeDados coleta = new AppColetaDeDados();
+		
+		coleta.setCdEmpresa(ava.getCdempresa());
+		coleta.setId_Verificador_m(ava.getCdverimod());
+		coleta.setCdTipoDeVerificador(ava.getCdtipoverificador());
+		coleta.setCdMonitoramento(ava.getCdmonitoramento());
+		coleta.setCdAvaliacao(ava.getCdavaliacao());
+			
+		appColetaDeDadosRepository.save(coleta);		
 	}
 	
 

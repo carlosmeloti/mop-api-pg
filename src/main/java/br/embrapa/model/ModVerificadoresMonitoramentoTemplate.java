@@ -12,8 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="r17_verificador_template_m")
 public class ModVerificadoresMonitoramentoTemplate {
-	
-	
+		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="r17_cdverimod")
@@ -195,7 +194,6 @@ public class ModVerificadoresMonitoramentoTemplate {
 			return false;
 		return true;
 	}
-	
 
 	
 	

@@ -1,5 +1,6 @@
 package br.embrapa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,37 +19,29 @@ public class AppVerificadoresMonitoramento {
 	@Column(name="r17_cdverimod")
 	private Long cdVeriMod;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdempresa", referencedColumnName="d24_cdempresa" )
-	private CadEmpresa cdEmpresa;
+	@Column(name="r17_cdempresa")
+	private Long cdEmpresa;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdverificador", referencedColumnName="p01_id_Verificador_m")
-	private Verificador_m cdVerificador;
+	@Column(name="r17_cdverificador")
+	private Long cdVerificador;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdtipoverificador")
-	private CadTipoDeVerificador cdTipoDeVerificador;
+	@Column(name="r17_cdtipoverificador")
+	private Long cdTipoDeVerificador;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdmonitoramento", referencedColumnName="d18_cdmonitoramento")
-	private AppMonitoramento cdMonitoramento;
+	@Column(name="r17_cdmonitoramento")
+	private Long cdMonitoramento;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdnivel1")
-	private ModNivel1 cdNivel1;
+	@Column(name="r17_cdnivel1")
+	private Long cdNivel1;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdnivel2")
-	private ModNivel2 cdNivel2;
+	@Column(name="r17_cdnivel2")
+	private Long cdNivel2;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdnivel3")
-	private ModNivel3 cdNivel3;
+	@Column(name="r17_cdnivel3")
+	private Long cdNivel3;
 	
-	@ManyToOne
-	@JoinColumn(name="r17_cdnivel4")
-	private ModNivel4 cdNivel4;
+	@Column(name="r17_cdnivel4")
+	private Long cdNivel4;
 	
 	@Column(name="r17_lgdadosanaliticos")
 	private Boolean lgDadosAnaliticos;
@@ -70,67 +63,68 @@ public class AppVerificadoresMonitoramento {
 		this.cdVeriMod = cdVeriMod;
 	}
 
-	public CadEmpresa getCdEmpresa() {
+	
+	public Long getCdEmpresa() {
 		return cdEmpresa;
 	}
 
-	public void setCdEmpresa(CadEmpresa cdEmpresa) {
+	public void setCdEmpresa(Long cdEmpresa) {
 		this.cdEmpresa = cdEmpresa;
 	}
 
-	public Verificador_m getCdVerificador() {
+	public Long getCdVerificador() {
 		return cdVerificador;
 	}
 
-	public void setCdVerificador(Verificador_m cdVerificador) {
+	public void setCdVerificador(Long cdVerificador) {
 		this.cdVerificador = cdVerificador;
 	}
 
-	public CadTipoDeVerificador getCdTipoDeVerificador() {
+	public Long getCdTipoDeVerificador() {
 		return cdTipoDeVerificador;
 	}
 
-	public void setCdTipoDeVerificador(CadTipoDeVerificador cdTipoDeVerificador) {
+	public void setCdTipoDeVerificador(Long cdTipoDeVerificador) {
 		this.cdTipoDeVerificador = cdTipoDeVerificador;
 	}
 
-	public AppMonitoramento getCdMonitoramento() {
+	public Long getCdMonitoramento() {
 		return cdMonitoramento;
 	}
 
-	public void setCdMonitoramento(AppMonitoramento cdMonitoramento) {
+	public void setCdMonitoramento(Long cdMonitoramento) {
 		this.cdMonitoramento = cdMonitoramento;
 	}
 
-	public ModNivel1 getCdNivel1() {
+	public Long getCdNivel1() {
 		return cdNivel1;
 	}
 
-	public void setCdNivel1(ModNivel1 cdNivel1) {
+	public void setCdNivel1(Long cdNivel1) {
 		this.cdNivel1 = cdNivel1;
 	}
 
-	public ModNivel2 getCdNivel2() {
+	public Long getCdNivel2() {
 		return cdNivel2;
 	}
 
-	public void setCdNivel2(ModNivel2 cdNivel2) {
+	public void setCdNivel2(Long cdNivel2) {
 		this.cdNivel2 = cdNivel2;
 	}
 
-	public ModNivel3 getCdNivel3() {
+	public Long getCdNivel3() {
 		return cdNivel3;
 	}
 
-	public void setCdNivel3(ModNivel3 cdNivel3) {
+	public void setCdNivel3(Long cdNivel3) {
 		this.cdNivel3 = cdNivel3;
 	}
 
-	public ModNivel4 getCdNivel4() {
+	public Long getCdNivel4() {
 		return cdNivel4;
 	}
 
-	public void setCdNivel4(ModNivel4 cdNivel4) {
+	public void setCdNivel4(Long cdNivel4) {
 		this.cdNivel4 = cdNivel4;
 	}
 

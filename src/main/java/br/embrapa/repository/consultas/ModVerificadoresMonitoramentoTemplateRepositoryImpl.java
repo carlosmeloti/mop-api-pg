@@ -41,7 +41,7 @@ public class ModVerificadoresMonitoramentoTemplateRepositoryImpl implements ModV
 	
 
 	@SuppressWarnings("unchecked")
-	public List<TodosOsVerificadores> listaTeste(Long cdTemplate){
+	public List<TodosOsVerificadores> listaVerificadores(Long cdTemplate){
 					
 		Query q = manager.createNativeQuery(
 				  "select distinct(vt.r17_cdverimod), " +

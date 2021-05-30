@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.embrapa.model.AppVerificadoresMonitoramento;
+import br.embrapa.model.ModVerificadoresMonitoramentoTemplate;
 import br.embrapa.repository.AppVerificadoresMonitoramentoRepository;
 import br.embrapa.repository.filter.AppVerificadoresMonitoramentoFilter;
 
@@ -25,5 +26,28 @@ public class AppVerificadoresMonitoramentoResource {
 	public Page<AppVerificadoresMonitoramento> Pesquisar(AppVerificadoresMonitoramentoFilter appVerificadoresMonitoramentoFilter, Pageable pageable) {
 		return appVerificadoresMonitoramentoRepository.filtrar(appVerificadoresMonitoramentoFilter,pageable);
 	}
+
+
+	public void inserirVerificadores(ModVerificadoresMonitoramentoTemplate ver, Long cdMonitoramento) {
+		AppVerificadoresMonitoramento appVeriMon = new AppVerificadoresMonitoramento();
+		
+		appVeriMon.setCdEmpresa(ver.getCdEmpresa().getCdEmpresa());
+		appVeriMon.setCdVerificador(ver.getCdVerificador().getCdVerificador());
+		appVeriMon.setCdTipoDeVerificador(ver.getCdTipoDeVerificador().getCdTipoDeVerificador());
+		appVeriMon.setCdMonitoramento(cdMonitoramento);
+		appVeriMon.setCdNivel1(ver.getCdNivel1().getCdNivel1());
+		appVeriMon.setCdNivel2(ver.getCdNivel2().getCdNivel2());
+		appVeriMon.setCdNivel3(ver.getCdNivel3().getCdNivel3());
+		appVeriMon.setCdNivel4(ver.getCdNivel4().getCdNivel4());
+		appVeriMon.setLgDadosAnaliticos(ver.getLgDadosAnaliticos());
+		appVeriMon.setLgDadosAgrupados(ver.getLgDadosAgrupados());
+		appVeriMon.setTxColetaAnalitica(ver.getTxColetaAnalitica());
+		appVeriMon.setTxColetaAgrupada(ver.getTxColetaAgrupada());
+		
+		appVerificadoresMonitoramentoRepository.save(appVeriMon);		
+	}
+	
+	
+	
 
 }
