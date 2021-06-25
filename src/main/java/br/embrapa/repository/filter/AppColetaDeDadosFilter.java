@@ -4,6 +4,7 @@ public class AppColetaDeDadosFilter {
 	
 	private Long cdMonitoramento;
 	private Long cdAvaliacao;
+	private Long cdEmpresa;
 	
 	
 	public Long getCdMonitoramento() {
@@ -18,6 +19,13 @@ public class AppColetaDeDadosFilter {
 	public void setCdAvaliacao(Long cdAvaliacao) {
 		this.cdAvaliacao = cdAvaliacao;
 	}
+	public Long getCdEmpresa() {
+		return cdEmpresa;
+	}
+	public void setCdEmpresa(Long cdEmpresa) {
+		this.cdEmpresa = cdEmpresa;
+	}
+	
 	
 	
 

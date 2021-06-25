@@ -31,7 +31,7 @@ public class AppVerificadoresMonitoramentoResource {
 	public void inserirVerificadores(ModVerificadoresMonitoramentoTemplate ver, Long cdMonitoramento) {
 		AppVerificadoresMonitoramento appVeriMon = new AppVerificadoresMonitoramento();
 		
-		appVeriMon.setCdEmpresa(ver.getCdEmpresa().getCdEmpresa());
+		/*appVeriMon.setCdEmpresa(ver.getCdEmpresa().getCdEmpresa());
 		appVeriMon.setCdVerificador(ver.getCdVerificador().getCdVerificador());
 		appVeriMon.setCdTipoDeVerificador(ver.getCdTipoDeVerificador().getCdTipoDeVerificador());
 		appVeriMon.setCdMonitoramento(cdMonitoramento);
@@ -42,9 +42,13 @@ public class AppVerificadoresMonitoramentoResource {
 		appVeriMon.setLgDadosAnaliticos(ver.getLgDadosAnaliticos());
 		appVeriMon.setLgDadosAgrupados(ver.getLgDadosAgrupados());
 		appVeriMon.setTxColetaAnalitica(ver.getTxColetaAnalitica());
-		appVeriMon.setTxColetaAgrupada(ver.getTxColetaAgrupada());
+		appVeriMon.setTxColetaAgrupada(ver.getTxColetaAgrupada());*/
 		
-		appVerificadoresMonitoramentoRepository.save(appVeriMon);		
+		appVerificadoresMonitoramentoRepository.inserirVerificadoresMonitoramento(ver.getCdEmpresa().getCdEmpresa(),
+				ver.getCdVerificador().getCdVerificador(),ver.getCdTipoDeVerificador().getCdTipoDeVerificador(),
+				cdMonitoramento, ver.getCdNivel1().getCdNivel1(),ver.getCdNivel2().getCdNivel2(), ver.getCdNivel3().getCdNivel3(),
+				ver.getCdNivel4().getCdNivel4(),ver.getLgDadosAnaliticos(),  ver.getLgDadosAgrupados(), ver.getTxColetaAnalitica(),
+				ver.getTxColetaAgrupada());
 	}
 	
 	

@@ -84,8 +84,11 @@ public class AppMonitoramentoResource {
 	}
 	
 	private List<ModVerificadoresMonitoramentoTemplate> listarVerificadores(Long cdtemplate){
-		Query query = em.createNativeQuery("select * from r17_verificador_template_m  where r17_cdtemplate = ?1", ModVerificadoresMonitoramentoTemplate.class)
-				.setParameter(1, cdtemplate);
+		Query query = em.createNativeQuery("select r17_cdverimod, r17_cdempresa, r17_cdverificador, r17_cdtipoverificador, "
+				+ " r17_cdtemplate, r17_cdnivel1, r17_cdnivel2, r17_cdnivel3, r17_cdnivel4, "
+				+ "COALESCE(r17_lgdadosanaliticos, false) as r17_lgdadosanaliticos, COALESCE(r17_lgdadosagrupados, false) as r17_lgdadosagrupados, "
+				+ " r17_txcoletaanalitica, r17_txcoletaagrupada from r17_verificador_template_m  where r17_cdtemplate = ?1",
+				ModVerificadoresMonitoramentoTemplate.class).setParameter(1, cdtemplate);
 		List<ModVerificadoresMonitoramentoTemplate> result =  query.getResultList();
 		return result;
 	}

@@ -51,10 +51,10 @@ public class ModVerificadoresMonitoramentoTemplate {
 	private ModNivel4 cdNivel4;
 	
 	@Column(name="r17_lgdadosanaliticos")
-	private Boolean lgDadosAnaliticos;
+	private boolean lgDadosAnaliticos;
 	
 	@Column(name="r17_lgdadosagrupados")
-	private Boolean lgDadosAgrupados;
+	private boolean lgDadosAgrupados;
 	
 	@Column(name = "r17_txcoletaanalitica")
 	private String txColetaAnalitica;
@@ -138,20 +138,25 @@ public class ModVerificadoresMonitoramentoTemplate {
 		this.cdNivel4 = cdNivel4;
 	}
 
-	public Boolean getLgDadosAnaliticos() {
+	public boolean getLgDadosAnaliticos() {
 		return lgDadosAnaliticos;
 	}
 
-	public void setLgDadosAnaliticos(Boolean lgDadosAnaliticos) {
+	public void setLgDadosAnaliticos(boolean lgDadosAnaliticos) {
 		this.lgDadosAnaliticos = lgDadosAnaliticos;
 	}
 
-	public Boolean getLgDadosAgrupados() {
+	public boolean getLgDadosAgrupados() {
 		return lgDadosAgrupados;
 	}
 
-	public void setLgDadosAgrupados(Boolean lgDadosAgrupados) {
-		this.lgDadosAgrupados = lgDadosAgrupados;
+	public void setLgDadosAgrupados(boolean lgDadosAgrupados) {
+		if(lgDadosAgrupados == true || lgDadosAgrupados == false) {
+			this.lgDadosAgrupados = lgDadosAgrupados;
+		} else {
+			this.lgDadosAgrupados = false;
+		}
+		
 	}
 
 	public String getTxColetaAnalitica() {

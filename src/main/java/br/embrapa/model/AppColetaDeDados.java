@@ -18,22 +18,27 @@ public class AppColetaDeDados {
 	@Column(name="p21_cdcoletadedados")  
 	private Long cdColetaDeDaDos;
 	
-	@Column(name="p21_cdempresa")
-	private Long cdEmpresa;
+	@ManyToOne
+	@JoinColumn(name="p21_cdempresa", referencedColumnName="d24_cdempresa")
+	private CadEmpresa cdEmpresa;
 	
-	@Column(name="p21_id_Verificador_m")
-	private Long id_Verificador_m;
+	@ManyToOne
+	@JoinColumn(name="p21_id_Verificador_m", referencedColumnName="p01_id_Verificador_m")
+	private Verificador_m id_Verificador_m;
 	
-	@Column(name="p21_cdtipoverificador")
-	private Long cdTipoDeVerificador;
+	@ManyToOne
+	@JoinColumn(name="p21_cdtipoverificador", referencedColumnName ="d02_cdtipoverificador")
+	private CadTipoDeVerificador cdTipoDeVerificador;
 	
-	@Column(name="p21_cdmonitoramento")
-	private Long cdMonitoramento;
+	@ManyToOne
+	@JoinColumn(name="p21_cdmonitoramento", referencedColumnName = "d18_cdmonitoramento")
+	private AppMonitoramento cdMonitoramento;
 	
-	@Column(name="p21_cdavaliacao")
-	private Long cdAvaliacao;
+	@ManyToOne
+	@JoinColumn(name="p21_cdavaliacao", referencedColumnName = "d19_cdavaliacao")
+	private AppAvaliacao cdAvaliacao;
 	
-	@Column(name="p21_nrobservacoes")
+	@Column(name="p21_nrobservacoes") 
 	private Integer nrObservacoes;
 	
 	@Column(name="p21_nrnaoconf")
@@ -48,34 +53,34 @@ public class AppColetaDeDados {
 	public void setCdColetaDeDaDos(Long cdColetaDeDaDos) {
 		this.cdColetaDeDaDos = cdColetaDeDaDos;
 	}
-	public Long getCdEmpresa() {
+	public CadEmpresa getCdEmpresa() {
 		return cdEmpresa;
 	}
-	public void setCdEmpresa(Long cdEmpresa) {
+	public void setCdEmpresa(CadEmpresa cdEmpresa) {
 		this.cdEmpresa = cdEmpresa;
 	}
-	public Long getId_Verificador_m() {
-		return id_Verificador_m;
-	}
-	public void setId_Verificador_m(Long id_Verificador_m) {
-		this.id_Verificador_m = id_Verificador_m;
-	}
-	public Long getCdTipoDeVerificador() {
+	public CadTipoDeVerificador getCdTipoDeVerificador() {
 		return cdTipoDeVerificador;
 	}
-	public void setCdTipoDeVerificador(Long cdTipoDeVerificador) {
+	public void setCdTipoDeVerificador(CadTipoDeVerificador cdTipoDeVerificador) {
 		this.cdTipoDeVerificador = cdTipoDeVerificador;
 	}
-	public Long getCdMonitoramento() {
-		return cdMonitoramento;
-	}
-	public void setCdMonitoramento(Long cdMonitoramento) {
-		this.cdMonitoramento = cdMonitoramento;
-	}
-	public Long getCdAvaliacao() {
+	public AppAvaliacao getCdAvaliacao() {
 		return cdAvaliacao;
 	}
-	public void setCdAvaliacao(Long cdAvaliacao) {
+	public Verificador_m getId_Verificador_m() {
+		return id_Verificador_m;
+	}
+	public void setId_Verificador_m(Verificador_m id_Verificador_m) {
+		this.id_Verificador_m = id_Verificador_m;
+	}
+	public AppMonitoramento getCdMonitoramento() {
+		return cdMonitoramento;
+	}
+	public void setCdMonitoramento(AppMonitoramento cdMonitoramento) {
+		this.cdMonitoramento = cdMonitoramento;
+	}
+	public void setCdAvaliacao(AppAvaliacao cdAvaliacao) {
 		this.cdAvaliacao = cdAvaliacao;
 	}
 	public Integer getNrObservacoes() {
@@ -119,10 +124,6 @@ public class AppColetaDeDados {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 	
 
 }

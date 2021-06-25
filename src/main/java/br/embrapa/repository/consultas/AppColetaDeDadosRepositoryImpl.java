@@ -20,6 +20,7 @@ import br.embrapa.model.AppAvaliacao_;
 import br.embrapa.model.AppColetaDeDados;
 import br.embrapa.model.AppColetaDeDados_;
 import br.embrapa.model.AppMonitoramento_;
+import br.embrapa.model.CadTipoDeMetodo_;
 import br.embrapa.repository.filter.AppColetaDeDadosFilter;
 
 public class AppColetaDeDadosRepositoryImpl implements AppColetaDeDadosRepositoryQuery{
@@ -78,7 +79,11 @@ public class AppColetaDeDadosRepositoryImpl implements AppColetaDeDadosRepositor
 		}
 		if (appColetaDeDadosFilter.getCdAvaliacao() != null) {
 			predicates.add(
-					builder.equal(root.get(AppColetaDeDados_.cdAvaliacao).get(AppAvaliacao_.cdAvaliacao), appColetaDeDadosFilter.getCdAvaliacao()));
+					builder.equal(root.get(AppColetaDeDados_.cdAvaliacao), appColetaDeDadosFilter.getCdAvaliacao()));
+		}
+		if (appColetaDeDadosFilter.getCdEmpresa() != null) {
+			predicates.add(
+					builder.equal(root.get(AppColetaDeDados_.cdEmpresa), appColetaDeDadosFilter.getCdEmpresa()));
 		}
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}

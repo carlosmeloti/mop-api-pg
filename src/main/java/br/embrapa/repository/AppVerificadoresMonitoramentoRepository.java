@@ -12,15 +12,15 @@ import br.embrapa.repository.consultas.AppVerificadoresMonitoramentoRepositoryQu
 public interface AppVerificadoresMonitoramentoRepository extends 
 JpaRepository<AppVerificadoresMonitoramento, Long>, AppVerificadoresMonitoramentoRepositoryQuery {
 
-	/*@Transactional
+	@Transactional
     @Modifying
-    @Query(value ="INSERT r17_verificador_monitoramento(r17_cdempresa, "
+    @Query(value ="INSERT into r17_verificador_monitoramento(r17_cdempresa, "
     		+ "r17_cdverificador, r17_cdtipoverificador, r17_cdmonitoramento, "
     		+ "r17_cdnivel1, r17_cdnivel2, r17_cdnivel3, r17_cdnivel4, r17_lgdadosanaliticos, "
-    		+ "r17_lgdadosagrupados, r17_txcoletaanalitica, r17_txcoletaagrupada)"
+    		+ "r17_lgdadosagrupados, r17_txcoletaanalitica, r17_txcoletaagrupada) "
     		+ "VALUES (:cdempresa, :cdverificador, :cdtipoverificador, :cdmonitoramento, "
     		+ ":cdnivel1, :cdnivel2, :cdnivel3, :cdnivel4, :lgdadosanaliticos, "
-    		+ ":lgdadosagrupados, :txcoletaanalitica, :txcoletaagrupada",
+    		+ ":lgdadosagrupados, :txcoletaanalitica, :txcoletaagrupada)",
             nativeQuery = true)
     void inserirVerificadoresMonitoramento(@Param("cdempresa") Long cdempresa,
                             @Param("cdverificador") Long cdverificador,
@@ -35,7 +35,7 @@ JpaRepository<AppVerificadoresMonitoramento, Long>, AppVerificadoresMonitorament
                             @Param("txcoletaanalitica") String txcoletaanalitica,
                             @Param("txcoletaagrupada") String txcoletaagrupada);
 
-	void salvarVerificadoresDoMonitoramento(AppVerificadoresMonitoramento appVeriMon);
+	//void salvarVerificadoresDoMonitoramento(AppVerificadoresMonitoramento appVeriMon);
 	
-	*/
+	
 }

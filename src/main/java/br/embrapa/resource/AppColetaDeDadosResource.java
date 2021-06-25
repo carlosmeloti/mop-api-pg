@@ -47,6 +47,8 @@ public class AppColetaDeDadosResource {
 	@Autowired
 	private AppColetaDeDadosService appColetaDeDadosService;
 	
+	
+	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")
 	public Page<AppColetaDeDados> Pesquisar(AppColetaDeDadosFilter appColetaDeDadosFilter, Pageable pageable) {
@@ -90,17 +92,7 @@ public class AppColetaDeDadosResource {
 		return ResponseEntity.ok(appColetaDeDadosSalva);
 	}
 	
-	public void inserir(AvaliacaoMonitoramentoDTO ava) {
-		AppColetaDeDados coleta = new AppColetaDeDados();
-		
-		coleta.setCdEmpresa(ava.getCdempresa());
-		coleta.setId_Verificador_m(ava.getCdverimod());
-		coleta.setCdTipoDeVerificador(ava.getCdtipoverificador());
-		coleta.setCdMonitoramento(ava.getCdmonitoramento());
-		coleta.setCdAvaliacao(ava.getCdavaliacao());
-			
-		appColetaDeDadosRepository.save(coleta);		
-	}
+	
 	
 
 }

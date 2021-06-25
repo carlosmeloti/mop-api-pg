@@ -4,11 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="avaliacao_monitoramento")
+import org.springframework.stereotype.Component;
+
+//@Entity
+//@Table(name="avaliacao_monitoramento")
 public class AvaliacaoMonitoramentoDTO {
 
-	@Id
+	//@Id
 	private Long id;
 	private Long cdempresa;
 	private Long cdverimod;

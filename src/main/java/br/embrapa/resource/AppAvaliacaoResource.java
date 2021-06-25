@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.embrapa.dto.AvaliacaoMonitoramentoDTO;
 import br.embrapa.event.RecursoCriadoEvent;
 import br.embrapa.model.AppAvaliacao;
-import br.embrapa.model.ModVerificadoresMonitoramentoTemplate;
+import br.embrapa.model.AppColetaDeDados;
 import br.embrapa.repository.AppAvaliacaoRepository;
+import br.embrapa.repository.AppColetaDeDadosRepository;
 import br.embrapa.repository.filter.AppAvaliacaoFilter;
 import br.embrapa.service.AppAvaliacaoService;
 
@@ -56,6 +56,9 @@ public class AppAvaliacaoResource {
 	@Autowired
 	private AppColetaDeDadosResource appColetaDeDadosResource;
 	
+	@Autowired
+	private AppColetaDeDadosRepository appColetaDeDadosRepository;
+	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADAMOSTRAGEM') and #oauth2.hasScope('read')")
 	public Page<AppAvaliacao> Pesquisar(AppAvaliacaoFilter appAvaliacaoFilter, Pageable pageable) {
@@ -68,25 +71,34 @@ public class AppAvaliacaoResource {
 		AppAvaliacao appAvaliacaoSalva = appAvaliacaoRepository.save(appAvaliacao);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, appAvaliacao.getCdAvaliacao()));
 		
-		insereAvaliacaoDoMonitoramento();
+		insereAvaliacaoDoMonitoramento(appAvaliacao.getCdEmpresa().getCdEmpresa());
 		
 		LOGGER.info("Avaliação salva com sucesso!");
 		return ResponseEntity.status(HttpStatus.CREATED).body(appAvaliacaoSalva);
 	}
 	
 	
-	private List<AvaliacaoMonitoramentoDTO> listar(){
-		Query query = em.createNativeQuery("select * from avaliacao_monitoramento", AvaliacaoMonitoramentoDTO.class);
-		List<AvaliacaoMonitoramentoDTO> result =  query.getResultList();
+	private List<AppColetaDeDados> listar(Long cdempresa){
+		Query query = em.createNativeQuery("select * from avaliacao_monitoramento", AppColetaDeDados.class);
+		List<AppColetaDeDados> result =  query.getResultList();
 		return result;
 	}
 	
-	private void insereAvaliacaoDoMonitoramento() {
+	
+	private void insereAvaliacaoDoMonitoramento(Long cdempresa) {
 		
-		List<AvaliacaoMonitoramentoDTO> avaliacoes = this.listar();
+		List<AppColetaDeDados> avaliacoes = this.listar(cdempresa);
 					
-		for (AvaliacaoMonitoramentoDTO ava : avaliacoes) {		
-			appColetaDeDadosResource.inserir(ava);
+		for (AppColetaDeDados ava : avaliacoes) {	
+			try {
+				LOGGER.info("Inserindo avaliações do monitoramento!");
+				appColetaDeDadosRepository.salvar(ava.getCdEmpresa().getCdEmpresa(), ava.getId_Verificador_m().getCdVerificador(),
+												  ava.getCdTipoDeVerificador().getCdTipoDeVerificador(), ava.getCdMonitoramento().getCdMonitoramento(),
+												  ava.getCdAvaliacao().getCdAvaliacao());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	
