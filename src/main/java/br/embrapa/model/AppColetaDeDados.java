@@ -44,8 +44,17 @@ public class AppColetaDeDados {
 	@Column(name="p21_nrnaoconf")
 	private Integer nrNaoConformidades;
 	
+	@Column(name="p21_nrconf")
+	private Integer nrConformidades;
+	
+	@Column(name="p21_graco")
+	private Integer graco;
+	
 	@Column(name="p21_txobservacao")
 	private String txObservacao;
+	
+	@Column(name="p21_resultado")
+	private String resultado;
 	
 	public Long getCdColetaDeDaDos() {
 		return cdColetaDeDaDos;
@@ -84,12 +93,18 @@ public class AppColetaDeDados {
 		this.cdAvaliacao = cdAvaliacao;
 	}
 	public Integer getNrObservacoes() {
+		if(nrObservacoes == null) {
+			return nrObservacoes = 0;
+		}
 		return nrObservacoes;
 	}
 	public void setNrObservacoes(Integer nrObservacoes) {
 		this.nrObservacoes = nrObservacoes;
 	}
 	public Integer getNrNaoConformidades() {
+		if(nrNaoConformidades == null) {
+			return nrNaoConformidades = 0;
+		}
 		return nrNaoConformidades;
 	}
 	public void setNrNaoConformidades(Integer nrNaoConformidades) {
@@ -100,6 +115,27 @@ public class AppColetaDeDados {
 	}
 	public void setTxObservacao(String txObservacao) {
 		this.txObservacao = txObservacao;
+	}	
+	public Integer getGraco() {
+		return graco;
+	}
+	public void setGraco(Integer graco) {
+		this.graco = graco;
+	}
+	public Integer getNrConformidades() {
+		if(nrConformidades == null) {
+			return nrConformidades = 0;
+		}
+		return nrConformidades;
+	}
+	public void setNrConformidades(Integer nrConformidades) {
+		this.nrConformidades = nrConformidades;
+	}	
+	public String getResultado() {
+		return resultado;
+	}
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
 	}
 	@Override
 	public int hashCode() {

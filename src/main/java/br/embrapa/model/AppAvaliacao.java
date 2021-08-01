@@ -2,7 +2,6 @@ package br.embrapa.model;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,19 +15,19 @@ import javax.persistence.Table;
 @Table(name="d19_avaliacao")
 public class AppAvaliacao{
 	
-	@ManyToOne//(cascade=CascadeType.PERSIST)
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="d19_cdavaliacao")
+	private Long cdAvaliacao;
+	
+	@ManyToOne
 	@JoinColumn(name="d19_cdempresa", referencedColumnName="d24_cdempresa")
 	private CadEmpresa cdEmpresa;
 	
 	@ManyToOne
 	@JoinColumn(name="d19_cdmonitoramento", referencedColumnName="d18_cdmonitoramento")
 	private AppMonitoramento cdMonitoramento;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="d19_cdavaliacao")
-	private Long cdAvaliacao;
-	
+			
 	@Column(name="d19_nmavaliacao") 
 	private String nmAvaliacao;
 	

@@ -16,6 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,31 +34,43 @@ import br.embrapa.repository.filter.ModVerificadoresMonitoramentoTemplateFilter;
 import br.embrapa.repository.projections.CountVerificadores;
 import br.embrapa.repository.projections.ResumoVerificadoresMonitoramentoTemplate;
 import br.embrapa.repository.projections.ResumoVerificadoresMonitoramentoTemplateTeste;
+import br.embrapa.resource.AppAvaliacaoResource;
 
 public class ModVerificadoresMonitoramentoTemplateRepositoryImpl implements ModVerificadoresMonitoramentoTemplateRepositoryQuery {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModVerificadoresMonitoramentoTemplateRepositoryImpl.class);
+	
 	@PersistenceContext
-	private EntityManager manager;
-	
-	
+	private EntityManager manager;	
 
 	@SuppressWarnings("unchecked")
-	public List<TodosOsVerificadores> listaVerificadores(Long cdTemplate){
-					
-		Query q = manager.createNativeQuery(
-				  "select distinct(vt.r17_cdverimod), " +
-				  "v.p01_codalfa as codalfa, " +
-				  "na.d20_nmnivelavaliacao as nmNivelDeAvaliacao," +
-				  "v.p01_graco as p01_graco," + 
-				  "vt.r17_txcoletaagrupada as txColetaAgrupada," +
-				  "vt.r17_txcoletaanalitica as txColetaAnalitica," + 
-				  "v.p01_nmverificador " +
-				  "from r17_verificador_template_m vt join " +
-				  "p01_verificador_m v on vt.r17_cdverificador = v.p01_cdverificador " +
-				  "join d20_nivel_avaliacao na on v.p01_cdnivelavaliacao = na.d20_cdnivelavaliacao " +
-				  "where vt.r17_cdtemplate =:cdTemplate");
+	public List<TodosOsVerificadores> listaVerificadores(Long cdTemplate, boolean ordCatAva, boolean ordHierarquica){
 		
+		LOGGER.info("BUSCANDO VERIFICADORES PARA MONTAGEM DO RELATORIO");
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("select distinct(vt.r17_cdverimod), v.p01_codalfa as codalfa, ");
+		sb.append("na.d20_nmnivelavaliacao as nmNivelDeAvaliacao, v.p01_graco as p01_graco, ");
+		sb.append("vt.r17_txcoletaagrupada as txColetaAgrupada, vt.r17_txcoletaanalitica as txColetaAnalitica, ");
+		sb.append("v.p01_nmverificador,vt.r17_cdnivel1, vt.r17_cdnivel2, vt.r17_cdnivel3, vt.r17_cdnivel4 ");
+		sb.append("from r17_verificador_template_m vt join ");
+		sb.append("p01_verificador_m v on vt.r17_cdverificador = v.p01_cdverificador ");
+		sb.append("join d20_nivel_avaliacao na on v.p01_cdnivelavaliacao = na.d20_cdnivelavaliacao  ");
+		sb.append("where vt.r17_cdtemplate =:cdTemplate  ");
+		 
+		if(ordCatAva) {
+			LOGGER.info("ORDENACAO POR CODIGO ALFANUMERICO DO VERIFICADOR");
+			sb.append("ORDER BY v.p01_codalfa");
+		}
+		
+		if(ordHierarquica) {
+			LOGGER.info("ORDENACAO HIERARQUICA");
+			sb.append("ORDER BY vt.r17_cdnivel1,vt.r17_cdnivel2,vt.r17_cdnivel3,vt.r17_cdnivel4");
+		}
+		
+		Query q = manager.createNativeQuery(sb.toString());
 		q.setParameter("cdTemplate", cdTemplate);
+		
 		List<TodosOsVerificadores> verificadores = new ArrayList<TodosOsVerificadores>();
 
 		List<Object[]> list = q.getResultList();  

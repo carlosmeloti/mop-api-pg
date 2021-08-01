@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -68,6 +69,8 @@ public class AppAvaliacaoResource {
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CADAMOSTRAGEM') and #oauth2.hasScope('write')")
 	public ResponseEntity<AppAvaliacao> criar(@RequestBody AppAvaliacao appAvaliacao, HttpServletResponse response) {
+		
+		System.out.println(appAvaliacao.getCdMonitoramento().getCdMonitoramento());
 		AppAvaliacao appAvaliacaoSalva = appAvaliacaoRepository.save(appAvaliacao);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, appAvaliacao.getCdAvaliacao()));
 		
@@ -77,14 +80,13 @@ public class AppAvaliacaoResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(appAvaliacaoSalva);
 	}
 	
-	
 	private List<AppColetaDeDados> listar(Long cdempresa){
 		Query query = em.createNativeQuery("select * from avaliacao_monitoramento", AppColetaDeDados.class);
 		List<AppColetaDeDados> result =  query.getResultList();
 		return result;
 	}
 	
-	
+	@Transactional
 	private void insereAvaliacaoDoMonitoramento(Long cdempresa) {
 		
 		List<AppColetaDeDados> avaliacoes = this.listar(cdempresa);

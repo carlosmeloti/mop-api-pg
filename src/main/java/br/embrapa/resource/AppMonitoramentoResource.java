@@ -80,6 +80,7 @@ public class AppMonitoramentoResource {
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, appMonitoramento.getCdMonitoramento()));
 		LOGGER.info("Monitoramento salvo com sucesso!");
 		insereVerificadoresDoMonitoramento(appMonitoramentoSalva.getCdTemplate().getCdTemplate(),appMonitoramentoSalva.getCdMonitoramento());
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(appMonitoramentoSalva);
 	}
 	
@@ -89,6 +90,7 @@ public class AppMonitoramentoResource {
 				+ "COALESCE(r17_lgdadosanaliticos, false) as r17_lgdadosanaliticos, COALESCE(r17_lgdadosagrupados, false) as r17_lgdadosagrupados, "
 				+ " r17_txcoletaanalitica, r17_txcoletaagrupada from r17_verificador_template_m  where r17_cdtemplate = ?1",
 				ModVerificadoresMonitoramentoTemplate.class).setParameter(1, cdtemplate);
+				em.close();
 		List<ModVerificadoresMonitoramentoTemplate> result =  query.getResultList();
 		return result;
 	}

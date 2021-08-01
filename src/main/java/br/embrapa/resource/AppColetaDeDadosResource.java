@@ -87,9 +87,31 @@ public class AppColetaDeDadosResource {
 	@PutMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CADAMOSTRAGEM') and #oauth2.hasScope('write')")
 	public ResponseEntity<AppColetaDeDados> atualizar(@PathVariable Long codigo, @Valid @RequestBody AppColetaDeDados appColetaDeDados) {
+		calculaObs(appColetaDeDados);		
 		AppColetaDeDados appColetaDeDadosSalva = appColetaDeDadosService.atualizar(codigo, appColetaDeDados);
 		LOGGER.info("Coleta de Dados atualizada com sucesso!");
 		return ResponseEntity.ok(appColetaDeDadosSalva);
+	}
+
+	private void calculaObs(AppColetaDeDados appColetaDeDados) {
+		
+		appColetaDeDados.setNrObservacoes(appColetaDeDados.getNrConformidades() + appColetaDeDados.getNrNaoConformidades());
+		
+		if(appColetaDeDados.getNrObservacoes() != 0) {
+			appColetaDeDados.setGraco((appColetaDeDados.getNrConformidades() * 100) / appColetaDeDados.getNrObservacoes());	
+			
+			if(appColetaDeDados.getGraco() >= appColetaDeDados.getId_Verificador_m().getP01_graco().intValueExact()) {
+				appColetaDeDados.setResultado("NAC");
+			}		
+			if(appColetaDeDados.getGraco() < appColetaDeDados.getId_Verificador_m().getP01_graco().intValueExact()) {
+				appColetaDeDados.setResultado(appColetaDeDados.getId_Verificador_m().getCadNivelDeAvaliacao().getSigla());
+			}
+			
+		} else {
+			appColetaDeDados.setGraco(0);
+			appColetaDeDados.setResultado("NA");
+		}
+		
 	}
 	
 	

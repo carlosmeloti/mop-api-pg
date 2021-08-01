@@ -70,8 +70,9 @@ public class ModVerificadoresMonitoramentoTemplateResource {
 	
 	@GetMapping("/relatorio")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADFREQUENCIA') and #oauth2.hasScope('read')")
-	public ResponseEntity<byte[]> todosVerificadores(@RequestParam Long cdTemplate) throws Exception {
-		byte[] relatorio = modVerificadoresMonitoramentoTemplateService.todosVerificadores(cdTemplate);
+	public ResponseEntity<byte[]> todosVerificadores(@RequestParam Long cdTemplate, @RequestParam boolean ordCatAva, 
+			@RequestParam boolean ordHierarquica) throws Exception {
+		byte[] relatorio = modVerificadoresMonitoramentoTemplateService.todosVerificadores(cdTemplate, ordCatAva, ordHierarquica);
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)

@@ -4209,8 +4209,11 @@ CONSTRAINT monitoramento_fk FOREIGN KEY (d19_cdmonitoramento) REFERENCES d18_mon
     p21_cdtipoverificador BIGINT,
     p21_cdmonitoramento BIGINT,
     p21_cdavaliacao BIGINT,
-    p21_nrobservacoes integer,
+    p21_nrconf integer,    
     p21_nrnaoconf integer,
+    p21_nrobservacoes integer,
+    p21_graco integer,
+    p21_resultado VARCHAR(10).	
     p21_txobservacao VARCHAR(500),
 
 PRIMARY KEY (p21_cdColetaDeDados)
@@ -4220,6 +4223,8 @@ PRIMARY KEY (p21_cdColetaDeDados)
 --CONSTRAINT Coletamonitoramento_fk FOREIGN KEY (p21_cdmonitoramento) REFERENCES d18_monitoramento(d18_cdmonitoramento),
 --CONSTRAINT Coletaavaliacao_fk FOREIGN KEY (p21_cdavaliacao) REFERENCES d19_avaliacao(d19_cdavaliacao)
 );
+
+
 
 
 -- Usuariso e Permissões ------------------------
