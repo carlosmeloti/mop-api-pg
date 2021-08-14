@@ -4213,7 +4213,7 @@ CONSTRAINT monitoramento_fk FOREIGN KEY (d19_cdmonitoramento) REFERENCES d18_mon
     p21_nrnaoconf integer,
     p21_nrobservacoes integer,
     p21_graco integer,
-    p21_resultado VARCHAR(10).	
+    p21_resultado VARCHAR(10),	
     p21_txobservacao VARCHAR(500),
 
 PRIMARY KEY (p21_cdColetaDeDados)
@@ -4309,9 +4309,8 @@ INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (2, 17);
 
 -- VIEWS
 
-  create or replace view avaliacao_monitoramento as
-
- select row_number() OVER () as p21_cdcoletadedados,
+create or replace view avaliacao_monitoramento as
+select row_number() OVER () as p21_cdcoletadedados,
 	vt.r17_cdempresa as p21_cdempresa, 
 	vt.r17_cdverimod as p21_id_Verificador_m,
 	vt.r17_cdtipoverificador as p21_cdtipoverificador,
@@ -4319,7 +4318,10 @@ INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (2, 17);
 	a.d19_cdavaliacao as p21_cdavaliacao,
 	1 as p21_nrobservacoes,
 	1 as p21_nrnaoconf, 
-	'le' as p21_txobservacao
+	'le' as p21_txobservacao,
+	1 as p21_graco,
+	1 as p21_nrconf,
+	1 as p21_resultado
  from d19_avaliacao a 
  join d18_monitoramento m on a.d19_cdmonitoramento = m.d18_cdmonitoramento
  join  r17_verificador_template_m vt on m.d18_cdtemplate = vt.r17_cdtemplate
