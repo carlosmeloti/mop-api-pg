@@ -2,6 +2,7 @@ package br.embrapa.repository.consultas;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import br.embrapa.dto.RelatorioAnaliticoDTO;
 import br.embrapa.dto.TodosOsVerificadores;
 import br.embrapa.model.CadNivelDeAvaliacao_;
 import br.embrapa.model.CadTipoDeVerificador_;
@@ -47,7 +49,7 @@ public class ModVerificadoresMonitoramentoTemplateRepositoryImpl implements ModV
 	public List<TodosOsVerificadores> listaVerificadores(Long cdTemplate, boolean ordCatAva, boolean ordHierarquica){
 		
 		LOGGER.info("BUSCANDO VERIFICADORES PARA MONTAGEM DO RELATORIO");
-		
+				
 		StringBuilder sb = new StringBuilder();
 		sb.append("select distinct(vt.r17_cdverimod), v.p01_codalfa as codalfa, ");
 		sb.append("na.d20_nmnivelavaliacao as nmNivelDeAvaliacao, v.p01_graco as p01_graco, ");
@@ -89,6 +91,55 @@ public class ModVerificadoresMonitoramentoTemplateRepositoryImpl implements ModV
 		  }
 		}
 		return verificadores;  	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RelatorioAnaliticoDTO> listaParaRelatorioAnalitico(Long cdavaliacao, boolean ordCatAva, boolean ordHierarquica){
+		
+		LOGGER.info("BUSCANDO VERIFICADORES PARA MONTAGEM DO RELATORIO ANALITICO");
+				
+		StringBuilder sb = new StringBuilder();
+		sb.append("select d24_nmempresa, d18_nmmonitoramento, d19_nmavaliacao, d19_dtinicio, ");
+		sb.append("d19_dtfim, p01_codalfa, p01_nmverificador, p21_nrconf, p21_nrnaoconf, ");
+		sb.append("p21_nrobservacoes, p21_graco, p21_resultado ");
+		sb.append("from v_verificadores_rel_analitico where p21_cdavaliacao= :cdavaliacao  ");
+		 
+		/*if(ordCatAva) {
+			LOGGER.info("ORDENACAO POR CODIGO ALFANUMERICO DO VERIFICADOR");
+			sb.append("ORDER BY v.p01_codalfa");
+		}
+		
+		if(ordHierarquica) {
+			LOGGER.info("ORDENACAO HIERARQUICA");
+			sb.append("ORDER BY vt.r17_cdnivel1,vt.r17_cdnivel2,vt.r17_cdnivel3,vt.r17_cdnivel4");
+		}*/
+		
+		Query q = manager.createNativeQuery(sb.toString());
+		q.setParameter("cdavaliacao", cdavaliacao);
+		
+		List<RelatorioAnaliticoDTO> relatorioAnalitico = new ArrayList<RelatorioAnaliticoDTO>();
+
+		List<Object[]> list = q.getResultList();  
+		if(list  != null){
+			
+			for(Object[] objectArray : list ){
+				RelatorioAnaliticoDTO verificador = new RelatorioAnaliticoDTO( 
+					  (String)objectArray[0], 
+					  (String)objectArray[1], 
+					  (String)objectArray[2], 
+					  (Date)objectArray[3],
+					  (Date)objectArray[4],
+					  (String)objectArray[5],
+					  (String)objectArray[6],
+			  		  (Integer)objectArray[7],
+			  		  (Integer)objectArray[8],
+			  		  (Integer)objectArray[9],
+			  		  (Integer)objectArray[10],
+			  	      (String)objectArray[11]);
+			  relatorioAnalitico.add(verificador);
+		  }
+		}
+		return relatorioAnalitico;  	
 	}
 	
 	

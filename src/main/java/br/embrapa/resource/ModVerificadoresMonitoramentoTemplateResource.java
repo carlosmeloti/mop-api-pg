@@ -79,6 +79,17 @@ public class ModVerificadoresMonitoramentoTemplateResource {
 				.body(relatorio);
 	}
 	
+	@GetMapping("/relatorioanalitico")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CADFREQUENCIA') and #oauth2.hasScope('read')")
+	public ResponseEntity<byte[]> relatorioAnalitico(@RequestParam Long cdavaliacao, @RequestParam boolean ordCatAva, 
+			@RequestParam boolean ordHierarquica) throws Exception {
+		byte[] relatorio = modVerificadoresMonitoramentoTemplateService.relatorioAnalitico(cdavaliacao, ordCatAva, ordHierarquica);
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
+				.body(relatorio);
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/count")

@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+
+import br.embrapa.dto.RelatorioAnaliticoDTO;
 import br.embrapa.dto.TodosOsVerificadores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,6 +37,18 @@ public class ModVerificadoresMonitoramentoTemplateService {
 		InputStream inputStream = this.getClass().getResourceAsStream(
 				"/relatorios/formtodososverificadores.jasper");
 		
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros,
+				new JRBeanCollectionDataSource(dados));
+		
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+	
+	public byte[] relatorioAnalitico(Long cdavaliacao, boolean ordCatAva, boolean ordHierarquica) throws Exception {
+		List<RelatorioAnaliticoDTO> dados = modVerificadoresMonitoramentoTemplateRepository.listaParaRelatorioAnalitico(cdavaliacao, ordCatAva,ordHierarquica);
+		
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("cdavaliacao", Long.valueOf(cdavaliacao));		
+		InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/formrelatorioanalitico.jasper");		
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros,
 				new JRBeanCollectionDataSource(dados));
 		
