@@ -4327,4 +4327,13 @@ select row_number() OVER () as p21_cdcoletadedados,
  join  r17_verificador_template_m vt on m.d18_cdtemplate = vt.r17_cdtemplate
  where 
  a.d19_cdavaliacao = (select MAX(d19_cdavaliacao) from d19_avaliacao);
+
+create or replace view v_verificadores_rel_analitico as
+ select e.d24_nmempresa, m.d18_nmmonitoramento,	a.d19_nmavaliacao, a.d19_dtinicio,
+	a.d19_dtfim, v.p01_codalfa,v.p01_nmverificador, c.p21_nrconf, c.p21_nrnaoconf,
+	c.p21_nrobservacoes, c.p21_graco, c.p21_resultado, c.p21_cdavaliacao
+ from p01_verificador_m v join p21_coleta c on v.p01_id_verificador_m = p21_id_verificador_m 
+ join d19_avaliacao a on c.p21_cdavaliacao = d19_cdavaliacao
+ join d18_monitoramento m on a.d19_cdmonitoramento = m.d18_cdmonitoramento
+ join d24_empresa e on d18_cdempresa = d24_cdempresa;
  
