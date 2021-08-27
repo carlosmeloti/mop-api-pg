@@ -1,16 +1,15 @@
 package br.embrapa.repository;
 
-import br.embrapa.model.CadMaterial;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import br.embrapa.model.ModLocal1;
-import br.embrapa.repository.consultas.ModLocal1RepositoryQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.embrapa.model.ModLocal1;
+import br.embrapa.repository.consultas.ModLocal1RepositoryQuery;
 
 public interface ModLocal1Repository extends JpaRepository<ModLocal1, Long>, ModLocal1RepositoryQuery{
 

@@ -98,15 +98,9 @@ public class CadAmostragemResource {
 	}
 	
 	public void populaCadAmostragem(Long cdEmpresa) {
-	    try {
-			 List<CadAmostragem> resultado = cadAmostragemRepository.listarDadosPadrao();
-			 for(CadAmostragem cadAmostragem: resultado) {  
-				 cadAmostragemRepository.inserirDadosPadrao(cdEmpresa, cadAmostragem.getNmAmostragem());
-			 }
-			 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		 List<CadAmostragem> resultado = cadAmostragemRepository.listarDadosPadrao();
+		 resultado.stream()
+		 	.forEach(c -> cadAmostragemRepository.inserirDadosPadrao(cdEmpresa, c.getNmAmostragem()));
     }
 		
 }

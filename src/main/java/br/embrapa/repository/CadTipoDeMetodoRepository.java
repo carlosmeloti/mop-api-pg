@@ -1,16 +1,15 @@
 package br.embrapa.repository;
 
-import br.embrapa.model.CadFrequencia;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import br.embrapa.model.CadTipoDeMetodo;
-import br.embrapa.repository.consultas.CadTipoDeMetodoRepositoryQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.embrapa.model.CadTipoDeMetodo;
+import br.embrapa.repository.consultas.CadTipoDeMetodoRepositoryQuery;
 
 public interface CadTipoDeMetodoRepository extends JpaRepository<CadTipoDeMetodo, Long>, CadTipoDeMetodoRepositoryQuery {
 

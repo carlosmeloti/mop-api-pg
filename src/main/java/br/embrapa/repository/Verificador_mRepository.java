@@ -1,17 +1,16 @@
 package br.embrapa.repository;
 
-import br.embrapa.model.CadMaterial;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.math.BigDecimal;
+import java.util.List;
 
-import br.embrapa.model.Verificador_m;
-import br.embrapa.repository.consultas.Verificador_mRepositoryQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
+import br.embrapa.model.Verificador_m;
+import br.embrapa.repository.consultas.Verificador_mRepositoryQuery;
 
 public interface Verificador_mRepository extends JpaRepository<Verificador_m, Long>, Verificador_mRepositoryQuery {
 

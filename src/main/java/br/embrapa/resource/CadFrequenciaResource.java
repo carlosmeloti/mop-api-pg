@@ -1,9 +1,10 @@
 package br.embrapa.resource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import br.embrapa.model.CadAmostragem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,6 @@ import br.embrapa.repository.CadFrequenciaRepository;
 import br.embrapa.repository.filter.CadFrequenciaFilter;
 import br.embrapa.repository.projections.ResumoCadFrequencia;
 import br.embrapa.service.CadFrequenciaService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/cadfrequencia")
@@ -95,14 +94,7 @@ public class CadFrequenciaResource {
 	}
 
 	public void populaCadFrequencia(Long cdEmpresa) {
-		try {
-			List<CadFrequencia> resultado = cadFrequenciaRepository.listarDadosPadrao();
-			for(CadFrequencia cadFrequencia: resultado) {
-				cadFrequenciaRepository.inserirDadosPadrao(cdEmpresa, cadFrequencia.getNmFrequencia());
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<CadFrequencia> resultado = cadFrequenciaRepository.listarDadosPadrao();
+		resultado.stream().forEach(c -> cadFrequenciaRepository.inserirDadosPadrao(cdEmpresa, c.getNmFrequencia()));
 	}
 }

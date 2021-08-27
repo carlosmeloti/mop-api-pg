@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import br.embrapa.model.CadMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,17 +62,13 @@ public class Verificador_mResource {
 	}
 
 	public void populaVerificador_m(Long cdEmpresa) {
-		try {
-			List<Verificador_m> resultado = verificador_mRepository.listarDadosPadrao();
-			for(Verificador_m verificador_m: resultado) {
-				verificador_mRepository.inserirDadosPadrao(cdEmpresa, verificador_m.getCdVerificador(),
-						verificador_m.getCdTipoDeVerificador().getCdTipoDeVerificador(), verificador_m.getCodalfa(),
-						verificador_m.getCadNivelDeAvaliacao().getCdNivelDeAvaliacao(), verificador_m.getNmverificador(),
-						verificador_m.getLimiar(),verificador_m.getP01_graco());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Verificador_m> resultado = verificador_mRepository.listarDadosPadrao();
+		resultado.stream()
+			.forEach(c -> verificador_mRepository.inserirDadosPadrao(cdEmpresa, c.getCdVerificador(),
+						c.getCdTipoDeVerificador().getCdTipoDeVerificador(), c.getCodalfa(),
+						c.getCadNivelDeAvaliacao().getCdNivelDeAvaliacao(), c.getNmverificador(),
+						c.getLimiar(),c.getP01_graco()));
+		
 	}
 	
 }

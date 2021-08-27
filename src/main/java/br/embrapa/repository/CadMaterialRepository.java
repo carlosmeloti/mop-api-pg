@@ -1,16 +1,15 @@
 package br.embrapa.repository;
 
-import br.embrapa.model.CadTipoDeMetodo;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import br.embrapa.model.CadMaterial;
-import br.embrapa.repository.consultas.CadMaterialRepositoryQuery;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import br.embrapa.model.CadMaterial;
+import br.embrapa.repository.consultas.CadMaterialRepositoryQuery;
 
 public interface CadMaterialRepository extends JpaRepository<CadMaterial, Long>, CadMaterialRepositoryQuery{
 
